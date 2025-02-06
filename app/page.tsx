@@ -34,14 +34,16 @@ export default function Home() {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-   const portfolioRef = useRef<HTMLDivElement>(null);
+  const portfolioRef = useRef<HTMLDivElement>(null);
 
-   const scrollToPortfolio = () => {
-     portfolioRef.current?.scrollIntoView({ behavior: "smooth" });
-   };
+  const scrollToPortfolio = () => {
+    portfolioRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const skills = [
     { name: "HTML", icon: Globe, level: 80 },
@@ -89,7 +91,6 @@ export default function Home() {
     },
   ];
 
-
   const shapes = Array.from({ length: 20 }).map((_, i) => ({
     size: Math.random() * 20 + 10,
     x: Math.random() * 100,
@@ -100,7 +101,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
-
       <div className="fixed inset-0 -z-10">
         {shapes.map((shape, i) => (
           <motion.div
