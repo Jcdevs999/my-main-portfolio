@@ -555,13 +555,6 @@ export default function Home() {
                             <p className="text-gray-300 mb-6 max-w-md mx-auto text-sm leading-relaxed">
                               {cert.description}
                             </p>
-                            <button
-                              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full 
-                        transition-all duration-300 transform hover:scale-105 focus:outline-none 
-                        focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
-                            >
-                              View Certificate
-                            </button>
                           </div>
                         </div>
                       </div>
