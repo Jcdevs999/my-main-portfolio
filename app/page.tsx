@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   Code2,
   Briefcase,
@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
@@ -68,8 +69,7 @@ export default function Home() {
     },
     {
       title: "Unemployment Rate Analysis",
-      description:
-        "Data visualization tool for analyzing quezon unemployment rates",
+      description: "Data visualization tool for analyzing quezon unemployment rates",
       image: "./PESO.jpg",
       tags: ["NextJS", "Node.js", "MongoDB"],
       link: "https://github.com/Jcdevs999/PESO-project",
@@ -83,21 +83,139 @@ export default function Home() {
     },
     {
       title: "E-commerce personalization",
-      description:
-        "Personalized shopping experience for an e-commerce platform",
+      description: "Personalized shopping experience for an e-commerce platform",
       image: "./ecomms.jpg",
       tags: ["NextJS", "NodeJS", "Tailwind CSS"],
       link: "https://ecommerce-design-ui-personal-hjws.vercel.app/",
     },
   ];
 
-  const shapes = Array.from({ length: 20 }).map((_, i) => ({
-    size: Math.random() * 20 + 10,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: Math.random() * 20 + 10,
-    delay: Math.random() * 2,
-  }));
+  interface Certificate {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+  }
+
+  const cert: Certificate[] = [
+    {
+      id: 1,
+      title: "JavaScript Fundamentals Course",
+      description:
+        "Learn JavaScript from scratch and become an advanced developer",
+      image: "./JavaScript Fundamental Certificate.jpg",
+    },
+    {
+      id: 2,
+      title: "JavaScript and CSS Course",
+      description:
+        "JavaScript for Beginners: Learn JavaScript and Supercharge Your Web Design!",
+      image: "./Java and css certificate.jpg",
+    },
+    {
+      id: 3,
+      title: "Big media PH Internship Graphic Designer",
+      description: "Internship Certificate",
+      image: "./CERTIFICATE-BIGMEDIAPH-INTERNSHIP-GRAPHICDESIGNER.jpg",
+    },
+    {
+      id: 4,
+      title: "JCBA Fullstack Web Developer",
+      description: "Internship Certificate",
+      image: "./JCBA-CERTIFICATES-WITH-SIGNATURE_page-0011.jpg",
+    },
+    {
+      id: 5,
+      title: "Web Development Training (PHP, JavaScript)",
+      description: "Internship Certificate",
+      image: "./JCBA-CERTIFICATES-WITH-SIGNATURE_page-0012.jpg",
+    },
+  ];
+
+  const [shapes, setShapes] = useState<{ size: number; x: number; y: number; duration: number; delay: number }[]>([]);
+
+  useEffect(() => {
+    setShapes(Array.from({ length: 20 }).map(() => ({
+      size: Math.random() * 20 + 10,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      duration: Math.random() * 20 + 10,
+      delay: Math.random() * 2,
+    })));
+  }, []);
+
+  const [currentIndex, setCurrentIndex] = useState(Math.floor(cert.length / 2));
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handlePrevious = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === 0 ? cert.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === cert.length - 1 ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  const getSlideStyles = (index: number) => {
+    const position = ((index - currentIndex + cert.length) % cert.length) - Math.floor(cert.length / 2);
+    const baseScale = 0.85;
+    const baseOpacity = 0.6;
+    const baseZIndex = 0;
+
+    if (position === 0) {
+      return {
+        scale: 1,
+        opacity: 1,
+        zIndex: 3,
+        x: "0%",
+        filter: "brightness(100%)",
+      };
+    } else if (position === 1 || position === -1) {
+      return {
+        scale: baseScale,
+        opacity: baseOpacity,
+        zIndex: 2,
+        x: position * 70 + "%",
+        filter: "brightness(60%)",
+      };
+    } else if (position === 2 || position === -2) {
+      return {
+        scale: baseScale * 0.85,
+        opacity: baseOpacity * 0.5,
+        zIndex: 1,
+        x: position * 55 + "%",
+        filter: "brightness(40%)",
+      };
+    } else {
+      return {
+        scale: 0,
+        opacity: 0,
+        zIndex: baseZIndex,
+        x: position * 50 + "%",
+        filter: "brightness(30%)",
+      };
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      handlePrevious();
+    } else if (e.key === "ArrowRight") {
+      handleNext();
+    }
+  };
+
+
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
@@ -129,6 +247,7 @@ export default function Home() {
 
       {/* Navigation */}
       <nav
+        aria-label="Main Navigation"
         className={`fixed w-full z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-background/80 backdrop-blur-md py-4"
@@ -161,6 +280,8 @@ export default function Home() {
 
             {/* Mobile Navigation */}
             <button
+              aria-expanded={isMobileMenuOpen ? "true" : "false"}
+              aria-label="Toggle mobile menu"
               className="md:hidden text-blue-400"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
@@ -169,6 +290,7 @@ export default function Home() {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 {isMobileMenuOpen ? (
                   <path
@@ -255,7 +377,7 @@ export default function Home() {
                   View Portfolio
                 </Button>
               </a>
-              <a href="./CV - Jan Christian Garcia.pdf" download>
+              <a href="./Jan Christian Garcia -CV.pdf" download>
                 {" "}
                 <Button
                   variant="outline"
@@ -367,6 +489,105 @@ export default function Home() {
               </div>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+      {/* Certificate Section */}
+      <section className="py-32 overflow-hidden">
+        <div className="container mx-auto">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl mb-10 font-bold text-center text-blue-100"
+          >
+            Certificates
+          </motion.h2>
+          <div
+            className="relative h-[500px] sm:h-[400px] xs:h-[350px] mb-10"
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="region"
+            aria-label="Product carousel"
+          >
+            <div className="absolute inset-x-10 -translate-y-1/4 sm:inset-x-4 xs:inset-x-2">
+              <AnimatePresence>
+                {cert.map((cert, index) => {
+                  const styles = getSlideStyles(index);
+                  return (
+                    <motion.div
+                      key={cert.id}
+                      className="absolute top-10 left-1/2 w-full max-w-xl sm:max-w-lg xs:max-w-md"
+                      initial={false}
+                      animate={{
+                        x: `calc(-50% + ${styles.x})`,
+                        scale: styles.scale,
+                        opacity: styles.opacity,
+                        zIndex: styles.zIndex,
+                        filter: styles.filter,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.4, 0.0, 0.2, 1],
+                      }}
+                      onAnimationComplete={() => setIsAnimating(false)}
+                    >
+                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl">
+                        <Image
+                          src={cert.image}
+                          alt={cert.title}
+                          fill
+                          className="transition-transform duration-700 opacity-70 object-cover"
+                          priority={index === currentIndex}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                          <div className="absolute bottom-0 left-0 right-0 p-8 text-center transform transition-transform duration-300">
+                            <h3 className="text-xl font-bold text-white mb-4 tracking-wide">
+                              {cert.title}
+                            </h3>
+                            <p className="text-gray-300 mb-6 max-w-md mx-auto text-sm leading-relaxed">
+                              {cert.description}
+                            </p>
+                            <button
+                              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full 
+                        transition-all duration-300 transform hover:scale-105 focus:outline-none 
+                        focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+                            >
+                              View Certificate
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+
+            {/* Arrow buttons with proper alignment */}
+            <div className="absolute inset-y-0 flex justify-between items-center w-full px-10">
+              <button
+                onClick={handlePrevious}
+                disabled={isAnimating}
+                className="z-10 text-white/80 hover:text-blue-500 
+          transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none 
+          focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-full p-2 sm:w-10 sm:h-10 xs:w-8 xs:h-8"
+                aria-label="Previous product"
+              >
+                <ChevronLeft className="w-12 h-12 sm:w-10 sm:h-10 xs:w-8 xs:h-8" />
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={isAnimating}
+                className="z-10 text-white/80 hover:text-blue-500 
+          transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none 
+          focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-full p-2 sm:w-10 sm:h-10 xs:w-8 xs:h-8"
+                aria-label="Next product"
+              >
+                <ChevronRight className="w-12 h-12 sm:w-10 sm:h-10 xs:w-8 xs:h-8" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -540,7 +761,9 @@ export default function Home() {
                 >
                   <Linkedin className="w-8 h-8 text-blue-400" />
                   <span className="font-medium text-blue-100">LinkedIn</span>
-                  <span className="text-sm text-blue-300">Jan Christian Garcia</span>
+                  <span className="text-sm text-blue-300">
+                    Jan Christian Garcia
+                  </span>
                 </motion.a>
               </div>
             </motion.div>
