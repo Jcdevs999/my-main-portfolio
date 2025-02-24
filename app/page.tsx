@@ -65,28 +65,36 @@ export default function Home() {
       description: "Enhanced user experience for a coffee e-commerce platform",
       image: "./caffeine.jpg",
       tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-      link: "https://coffee-ui-design-rmk9.vercel.app/",
     },
     {
       title: "Unemployment Rate Analysis",
       description: "Data visualization tool for analyzing quezon unemployment rates",
       image: "./PESO.jpg",
       tags: ["NextJS", "Node.js", "MongoDB"],
-      link: "https://github.com/Jcdevs999/PESO-project",
     },
     {
       title: "Loreta's Cafe Management",
       description: "Enhanced some features for a coffee e-commerce platform",
       image: "./COFFEE.jpg",
       tags: ["C#", "SQLite", "WinUI"],
-      link: "https://github.com/Jcdevs999/Coffeshop_project",
     },
     {
       title: "E-commerce personalization",
       description: "Personalized shopping experience for an e-commerce platform",
       image: "./ecomms.jpg",
       tags: ["NextJS", "NodeJS", "Tailwind CSS"],
-      link: "https://ecommerce-design-ui-personal-hjws.vercel.app/",
+    },
+    {
+      title: "Pet-care Management",
+      description: "Pet-care management system for a pet-care business",
+      image: "./pet-care.jpg",
+      tags: ["NextJS", "NodeJS", "Tailwind CSS"],
+    },
+    {
+      title: "Coron Palawan Overview",
+      description: "Web application for tourism in Coron Palawan",
+      image: "./Coron.jpg",
+      tags: ["NextJS", "NodeJS", "Tailwind CSS"],
     },
   ];
 
@@ -679,12 +687,6 @@ export default function Home() {
                         </span>
                       ))}
                     </div>
-                    <a
-                      href={project.link}
-                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-                    >
-                      View demo/github <ExternalLink className="w-4 h-4" />
-                    </a>
                   </div>
                 </div>
               </motion.div>
