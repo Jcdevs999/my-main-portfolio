@@ -5,30 +5,49 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import {
   Code2,
   Briefcase,
-  User,
   Mail,
   Github,
   Linkedin,
-  ExternalLink,
   ChevronDown,
-  Brain,
-  Cpu,
   Globe,
   Palette,
   Server,
-  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Code,
+  Database,
+  Cloud,
+  PenToolIcon as Tool,
+  Terminal,
+  Send,
+  GitBranch,
+  FileCode,
+  Layers,
+  Cpu,
+  LayoutGrid,
+} from "lucide-react";
+import { Poppins } from "next/font/google";
+
+
+type Skill = {
+  name: string;
+  icon: React.ReactNode;
+};
+
+type SkillCategory = {
+  category: string;
+  icon: React.ReactNode;
+  skills: Skill[];
+};
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const [activeCategory, setActiveCategory] = useState<string>("Frontend");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,18 +65,7 @@ export default function Home() {
     portfolioRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const skills = [
-    { name: "HTML", icon: Globe, level: 80 },
-    { name: "NodeJS", icon: Server, level: 85 },
-    { name: "ReactJS", icon: Globe, level: 85 },
-    { name: "Express", icon: Server, level: 80 },
-    { name: "CSS", icon: Globe, level: 80 },
-    { name: "JavaScript", icon: Globe, level: 85 },
-    { name: "Tailwind CSS", icon: Palette, level: 90 },
-    { name: "NextJS", icon: Globe, level: 80 },
-    { name: "MongoDB", icon: Server, level: 90 },
-    { name: "SQLite", icon: Server, level: 80 },
-  ];
+
 
   const projects = [
     {
@@ -223,10 +231,64 @@ export default function Home() {
     }
   };
 
+  const technologies: SkillCategory[] = [
+    {
+      category: "Frontend",
+      icon: <Code className="h-6 w-6" />,
+      skills: [
+        { name: "HTML", icon: <Code className="h-5 w-5" /> },
+        { name: "CSS", icon: <LayoutGrid className="h-5 w-5" /> },
+        { name: "JavaScript", icon: <FileCode className="h-5 w-5" /> },
+        { name: "ReactJS", icon: <Code className="h-5 w-5" /> },
+        { name: "NextJS", icon: <Code className="h-5 w-5" /> },
+        { name: "Tailwind CSS", icon: <Palette className="h-5 w-5" /> },
+        { name: "TypeScript", icon: <Code className="h-5 w-5" /> },
+        { name: "C#", icon: <Code className="h-5 w-5" /> },
+      ],
+    },
+    {
+      category: "Backend",
+      icon: <Server className="h-6 w-6" />,
+      skills: [
+        { name: "Node.js", icon: <Server className="h-5 w-5" /> },
+        { name: "Express", icon: <Server className="h-5 w-5" /> },
+        { name: "PHP", icon: <FileCode className="h-5 w-5" /> },
+        { name: "SQL", icon: <Database className="h-5 w-5" /> },
+        { name: "SQLite", icon: <Database className="h-5 w-5" /> },
+        { name: "MongoDB", icon: <Database className="h-5 w-5" /> },
+      ],
+    },
+    {
+      category: "Tools",
+      icon: <Tool className="h-6 w-6" />,
+      skills: [
+        { name: "VS Code", icon: <Code className="h-5 w-5" /> },
+        { name: "Postman", icon: <Send className="h-5 w-5" /> },
+        { name: "React DevTools", icon: <Palette className="h-5 w-5" /> },
+        { name: "GitHub", icon: <Github className="h-5 w-5" /> },
+        { name: "Vercel", icon: <Cloud className="h-5 w-5" /> },
+        { name: "NPM", icon: <Server className="h-5 w-5" /> },
+      ],
+    },
+  ];
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0 },
+  };
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-hidden ">
       <div className="fixed inset-0 -z-10">
         {shapes.map((shape, i) => (
           <motion.div
@@ -501,7 +563,7 @@ export default function Home() {
       </section>
       {/* Certificate Section */}
       <section className="py-32 overflow-hidden">
-        <div className="container mx-auto">
+        <div className="flex flex-col w-full mx-auto">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -563,8 +625,6 @@ export default function Home() {
                 })}
               </AnimatePresence>
             </div>
-
-            {/* Arrow buttons with proper alignment */}
             <div className="absolute inset-y-0 flex justify-between items-center w-full px-10">
               <button
                 onClick={handlePrevious}
@@ -593,40 +653,101 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-12 text-center text-blue-100"
-          >
-            Technical Expertise
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-background/40 backdrop-blur-sm p-6 rounded-lg border border-blue-900/30"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <skill.icon className="w-6 h-6 text-blue-400" />
-                  <h3 className="text-xl font-semibold text-blue-100">
-                    {skill.name}
-                  </h3>
+      <section id="skills"
+        className="py-16 md:px-8">
+        <div className="w-full flex flex-col mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-white">
+              Technical Skills
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              My expertise spans across various technologies and tools, enabling me to build complete, scalable
+              applications.
+            </p>
+          </div>
+
+          <div className="flex justify-center mb-8 overflow-x-auto pb-2">
+            <div className="inline-flex p-1 bg-gray-800 rounded-lg">
+              {technologies.map((tech) => (
+                <button
+                  key={tech.category}
+                  onClick={() => setActiveCategory(tech.category)}
+                  className={`px-4 py-2 rounded-md transition-all duration-200 flex items-center space-x-2 whitespace-nowrap ${
+                    activeCategory === tech.category
+                      ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-lg"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  <span className="text-blue-400">{tech.icon}</span>
+                  <span>{tech.category}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {technologies.map(
+            (tech) =>
+              tech.category === activeCategory && (
+                <div key={tech.category} className="mb-12">
+                  <div className="flex items-center mb-6">
+                    <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 mr-3">{tech.icon}</div>
+                    <h3 className="text-2xl font-semibold text-white">{tech.category} Technologies</h3>
+                  </div>
+
+                  <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
+                  >
+                    {tech.skills.map((skill) => (
+                      <motion.div
+                        key={skill.name}
+                        variants={item}
+                        className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 shadow-lg hover:shadow-blue-900/20 transition-all duration-300 border border-gray-700 flex flex-col items-center justify-center text-center hover:border-blue-500/50 group"
+                      >
+                        <div className="p-3 rounded-full bg-blue-600/10 text-blue-500 mb-3 group-hover:bg-blue-600/20 transition-all duration-300">
+                          {skill.icon}
+                        </div>
+                        <h4 className="text-white font-medium">{skill.name}</h4>
+                      </motion.div>
+                    ))}
+                  </motion.div>
                 </div>
-                <div className="space-y-2">
-                  <Progress value={skill.level} className="h-2 bg-blue-950" />
-                  <p className="text-sm text-blue-300 text-right">
-                    {skill.level}%
-                  </p>
+              ),
+          )}
+
+          <div className="mt-12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+            <h3 className="text-xl font-semibold text-white mb-4">My Approach</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex flex-col">
+                <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 mb-3 w-fit">
+                  <Code className="h-5 w-5" />
                 </div>
-              </motion.div>
-            ))}
+                <h4 className="text-lg font-medium text-white mb-2">Clean Code</h4>
+                <p className="text-gray-400 text-sm">
+                  I write maintainable, well-documented code following best practices and design patterns.
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 mb-3 w-fit">
+                  <Layers className="h-5 w-5" />
+                </div>
+                <h4 className="text-lg font-medium text-white mb-2">Scalable Architecture</h4>
+                <p className="text-gray-400 text-sm">
+                  I design systems that can grow and adapt to changing requirements and increased load.
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 mb-3 w-fit">
+                  <Palette className="h-5 w-5" />
+                </div>
+                <h4 className="text-lg font-medium text-white mb-2">User-Centered Design</h4>
+                <p className="text-gray-400 text-sm">
+                  I focus on creating intuitive, accessible interfaces that provide excellent user experiences.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
