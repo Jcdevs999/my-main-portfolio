@@ -1,3 +1,24 @@
+import {
+  ReactIcon,
+  NextJsIcon,
+  TypeScriptIcon,
+  JavaScriptIcon,
+  PythonIcon,
+  NodeJsIcon,
+  VueIcon,
+  AngularIcon,
+  TailwindIcon,
+  GitIcon,
+  DockerIcon,
+  PostgreSQLIcon,
+  MongoDBIcon,
+  AWSIcon,
+  FigmaIcon,
+  HTML5Icon,
+  CSS3Icon,
+} from "@/app/components/tech-icons";
+import { Server, Database, Layers, Terminal, Cloud, Palette } from "lucide-react"
+
 export const projects = [
   {
     title: "Personal Calculator",
@@ -102,38 +123,38 @@ type SkillCategory = {
   skills: Skill[];
 };
 
-export const technologies: SkillCategory[] = [
+export const skillCategories = [
   {
     category: "Frontend",
     skills: [
-      { name: "HTML, CSS and JavaScript", icon: "layout-grid" },
-      { name: "ReactJS", icon: "code" },
-      { name: "NextJS", icon: "code" },
-      { name: "Tailwind CSS", icon: "palette" },
-      { name: "TypeScript", icon: "code" },
-      { name: "C#", icon: "code" },
+      { name: "React", icon: ReactIcon },
+      { name: "Next.js", icon: NextJsIcon },
+      { name: "TypeScript", icon: TypeScriptIcon },
+      { name: "Tailwind CSS", icon: TailwindIcon },
+      { name: "HTML5", icon: HTML5Icon },
+      { name: "CSS3", icon: CSS3Icon },
+      { name: "JavaScript", icon: JavaScriptIcon },
     ],
   },
   {
     category: "Backend",
     skills: [
-      { name: "Node.js", icon: "server" },
-      { name: "Express", icon: "server" },
-      { name: "PHP", icon: "file-code" },
-      { name: "SQL", icon: "database" },
-      { name: "SQLite", icon: "database" },
-      { name: "MongoDB", icon: "database" },
+      { name: "Node.js", icon: NodeJsIcon },
+      { name: "Express", icon: Server },
+      { name: "MongoDB", icon: MongoDBIcon },
+      { name: "MySQL", icon: Database },
+
     ],
   },
   {
-    category: "Tools",
+    category: "Tools & Others",
     skills: [
-      { name: "VS Code", icon: "code" },
-      { name: "Postman", icon: "send" },
-      { name: "React DevTools", icon: "palette" },
-      { name: "GitHub", icon: "github" },
-      { name: "Vercel", icon: "cloud" },
-      { name: "NPM", icon: "server" },
+      { name: "Git Bash", icon: GitIcon },
+      { name: "Github", icon: GitIcon },
+      { name: "AWS", icon: AWSIcon },
+      { name: "Vercel", icon: Cloud },
+      { name: "Firebase", icon: Database },
     ],
   },
-];
+]
+
