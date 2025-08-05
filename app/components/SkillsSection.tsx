@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Code,
-  Layers,
   Palette,
   Server,
   FileCode,
@@ -38,7 +37,6 @@ const allSkills = skillCategories.flatMap((cat) =>
   })),
 )
 
-// Duplicate skills for seamless loop
 const duplicatedSkills = [...allSkills, ...allSkills]
 
 const SkillsSection = () => {
@@ -60,9 +58,9 @@ const SkillsSection = () => {
         </motion.div>
 
         {/* Animated Skills Marquee */}
-        <div className="relative overflow-hidden mb-16">
+        <div className="relative mb-16">
           <motion.div
-            className="flex gap-4 py-4"
+            className="flex w-full gap-4 py-4"
             animate={{
               x: [0, -80 * allSkills.length],
             }}
@@ -97,7 +95,7 @@ const SkillsSection = () => {
         </div>
 
         {/* Skills by Category */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.category}

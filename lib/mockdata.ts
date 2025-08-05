@@ -3,19 +3,18 @@ import {
   NextJsIcon,
   TypeScriptIcon,
   JavaScriptIcon,
-  PythonIcon,
   NodeJsIcon,
-  VueIcon,
-  AngularIcon,
   TailwindIcon,
   GitIcon,
-  DockerIcon,
-  PostgreSQLIcon,
+  SupabaseIcon,
+  VercelIcon,
   MongoDBIcon,
   AWSIcon,
-  FigmaIcon,
   HTML5Icon,
   CSS3Icon,
+  FirebaseIcon,
+  ExpressJsIcon,
+  MySQLIcon,
 } from "@/app/components/tech-icons";
 import { Server, Database, Layers, Terminal, Cloud, Palette } from "lucide-react"
 
@@ -140,10 +139,10 @@ export const skillCategories = [
     category: "Backend",
     skills: [
       { name: "Node.js", icon: NodeJsIcon },
-      { name: "Express", icon: Server },
+      { name: "Express", icon: ExpressJsIcon },
       { name: "MongoDB", icon: MongoDBIcon },
-      { name: "MySQL", icon: Database },
-
+      { name: "MySQL", icon: MySQLIcon },
+      { name: "Supabase", icon: SupabaseIcon },
     ],
   },
   {
@@ -152,8 +151,8 @@ export const skillCategories = [
       { name: "Git Bash", icon: GitIcon },
       { name: "Github", icon: GitIcon },
       { name: "AWS", icon: AWSIcon },
-      { name: "Vercel", icon: Cloud },
-      { name: "Firebase", icon: Database },
+      { name: "Vercel", icon: VercelIcon },
+      { name: "Firebase", icon: FirebaseIcon },
     ],
   },
 ]
